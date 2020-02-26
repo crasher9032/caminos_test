@@ -200,10 +200,17 @@ class IA_Carretera {
                         promedio=(promedio/contador);
                         preAnalisis[i][j]=promedio<100000? promedio : 0;
                     } catch (Exception e) {
+                        
                     }
                 }
             }
-            System.out.println(preAnalisis);
+            for (int i = 0; i < 100; i++) {
+                try {
+                    System.out.println(i+":"+preAnalisis[1][i]+"  "+preAnalisis[2][i]+"  "+preAnalisis[3][i]);
+                } catch (Exception e) {
+                    
+                }
+            }
     	}catch (Exception e) {
             System.out.println(e);
         }
