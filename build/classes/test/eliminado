@@ -1,0 +1,32 @@
+metodo mejorCamino()
+    		float minimo_auto = 100, 
+				maximo_auto = 0, 
+				promedio_auto = 0, 
+				x_auto,
+				minimo_llantas = 100,
+				maximo_llantas = 0,
+				promedio_llantas = 0;
+    		int con=0;
+	    	
+	    	ResultSet rs = s.executeQuery ("select * from `caminos_de_la_vida`.`"+caminoCon+"`");
+	    	while (rs.next())
+	    	{
+	    		x_auto=rs.getInt("estado_auto");
+	    		minimo_auto=x_auto<minimo_auto? x_auto: minimo_auto;
+	    		maximo_auto=x_auto>maximo_auto? x_auto: maximo_auto;
+	    	    promedio_auto=(promedio_auto+x_auto);
+	    	    
+	    	    x_auto=rs.getInt("estado_llantas");
+	    		minimo_llantas=x_auto<minimo_llantas? x_auto: minimo_llantas;
+	    		maximo_llantas=x_auto>maximo_llantas? x_auto: maximo_llantas;
+	    	    promedio_llantas=(promedio_llantas+x_auto);
+	    		con++;
+	    	}
+	    	promedio_auto=(promedio_auto/con);
+	    	promedio_llantas=(promedio_llantas/con);
+	    	
+	    	System.out.println("Segun datos recabados del camino "+caminoCon+":");
+	    	System.out.println("Promedio de vida del auto:"+promedio_auto);
+	    	System.out.println("Promedio de vida de las llantas:"+promedio_llantas);
+	    	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

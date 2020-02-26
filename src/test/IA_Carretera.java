@@ -90,6 +90,7 @@ class IA_Carretera {
     static int caminos = 3;
     //static int resto=0;
     static boolean fin=false;
+    static float[][] preAnalisis = new float[100][100];
     static float[] suma_total = new float[caminos];
     static List<Integer> talleres = new ArrayList<Integer>();
     static List<Integer> gruas = new ArrayList<Integer>();
@@ -139,6 +140,8 @@ class IA_Carretera {
             System.out.println("Cuenta con herramienta: "+herramienta);
             cont++;
         }
+        /////////////////////////////Importante///////////////////////////////////////////
+        mejorCamino();
         int i=0;
         float[][][]  matriz = new float[caminos][secciones][6];
         for (float[][] fs : matriz) {
@@ -156,7 +159,6 @@ class IA_Carretera {
             	System.out.println("El auto llego a su destino");
             }
             fin=false;
-            mejorCamino();
             i++;
             caminoCon++;
             seccionCon=0;
@@ -184,39 +186,27 @@ class IA_Carretera {
     }
     private static void mejorCamino() {
     	try {
-    		float minimo_auto = 100, 
-				maximo_auto = 0, 
-				promedio_auto = 0, 
-				x_auto,
-				minimo_llantas = 100,
-				maximo_llantas = 0,
-				promedio_llantas = 0;
-    		int con=0;
-	    	Statement s = conexion.createStatement();
-	    	ResultSet rs = s.executeQuery ("select * from `caminos_de_la_vida`.`"+caminoCon+"`");
-	    	while (rs.next())
-	    	{
-	    		x_auto=rs.getInt("estado_auto");
-	    		minimo_auto=x_auto<minimo_auto? x_auto: minimo_auto;
-	    		maximo_auto=x_auto>maximo_auto? x_auto: maximo_auto;
-	    	    promedio_auto=(promedio_auto+x_auto);
-	    	    
-	    	    x_auto=rs.getInt("estado_llantas");
-	    		minimo_llantas=x_auto<minimo_llantas? x_auto: minimo_llantas;
-	    		maximo_llantas=x_auto>maximo_llantas? x_auto: maximo_llantas;
-	    	    promedio_llantas=(promedio_llantas+x_auto);
-	    		con++;
-	    	}
-	    	promedio_auto=(promedio_auto/con);
-	    	promedio_llantas=(promedio_llantas/con);
-	    	
-	    	System.out.println("Segun datos recabados del camino "+caminoCon+":");
-	    	System.out.println("Promedio de vida del auto:"+promedio_auto);
-	    	System.out.println("Promedio de vida de las llantas:"+promedio_llantas);
-	    	
+            Statement s = conexion.createStatement();
+            float promedio=0;
+            for (int i = 1; i < 4; i++) {
+                for (int j = 0; j < 100; j++) {
+                    try {
+                        ResultSet rs = s.executeQuery ("select * from `caminos_de_la_vida`.`"+i+"` where seccion='"+j+"'");
+                        int contador=0;
+                        while(rs.next()){
+                            promedio=(promedio+rs.getInt("riesgo_accidente"));
+                            contador++;
+                        }
+                        promedio=(promedio/contador);
+                        preAnalisis[i][j]=promedio<100000? promedio : 0;
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            System.out.println(preAnalisis);
     	}catch (Exception e) {
-			System.out.println(e);
-		}
+            System.out.println(e);
+        }
 		
 	}
 	public static void generar(float[] seccion){
@@ -666,6 +656,7 @@ class IA_Carretera {
                         if(suceso(10)){
                             System.out.println("Es robada//Gasolina");
                             guardar(seccion, carrito, "huachicol");
+                            carrito[12]=40;
                             if(suceso(35)){
                             	guardar(seccion, carrito, "dano por huachicol");
                                 carrito[2]=(carrito[2]-10);
@@ -816,7 +807,7 @@ class IA_Carretera {
         boolean flag=false;
         try{
             for (Integer t : talleres) {
-                if(t<Tmayor || t>Tmenor){
+                if(t<Tmayor && t>Tmenor){
                     if(t<Tcercano){
                         Tcercano=t;
                     }
@@ -826,7 +817,7 @@ class IA_Carretera {
                 }
             }
             for (Integer g : gruas) {
-                if(g<Gmayor || g>Gmenor){
+                if(g<Gmayor && g>Gmenor){
                     if(g<Gcercano){
                         Gcercano=g;
                     }
