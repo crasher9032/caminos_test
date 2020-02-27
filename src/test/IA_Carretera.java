@@ -188,13 +188,15 @@ class IA_Carretera {
     private static void mejorCamino() {
     	try {
             Statement s = conexion.createStatement();
+            System.out.println("+++++++++++++++++++++++++++++++");
             for (int i = 1; i < 4; i++) {
+                System.out.println("Camino "+i+":");
                 float promedio=0;
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 100; j++) {
                     try {
                         ResultSet rs = s.executeQuery ("select * from `caminos_de_la_vida`.`"+i+"` where seccion='"+j+"'");
                         int contador=0;
-                        int contEvent1=0,contEvent2=0,contEvent3=0,contEvent4=0,contEvent5=0,contEvent6=0,contEvent7=0,contEvent8=0,contEvent9=0,
+                        float contEvent1=0,contEvent2=0,contEvent3=0,contEvent4=0,contEvent5=0,contEvent6=0,contEvent7=0,contEvent8=0,contEvent9=0,
                             contEvent10=0,contEvent11=0,contEvent12=0,contEvent13=0,contEvent14=0,contEvent15=0,contEvent16=0,contEvent17=0,
                             contEvent18=0,contEvent19=0,contEvent20=0,contEvent21=0,contEvent22=0,contEvent23=0,contEvent24=0,contEvent25=0,contEvent26=0;
                         while(rs.next()){
@@ -279,9 +281,39 @@ class IA_Carretera {
                                     contEvent26++;
                                     break;
                             }
-                            
                             promedio=(promedio+rs.getInt("riesgo_accidente"));
                             contador++;
+                        }
+                        if(contador!=0){
+                            System.out.println("    Seccion "+j+":");
+                            System.out.println("    Eventos negativos:");
+                            System.out.println("        muerte por choque:" + (contEvent1/contador*100) +"%");
+                            System.out.println("        choque menor:" + (contEvent2/contador*100) +"%");
+                            System.out.println("        fin por auto descompuesto:" + (contEvent4/contador*100) +"%");
+                            System.out.println("        animal en el camino:" + (contEvent6/contador*100) +"%");
+                            System.out.println("        falta de señalamientos:" + (contEvent7/contador*100) +"%");
+                            System.out.println("        lluvia:" + (contEvent9/contador*100) +"%");
+                            System.out.println("        nieve:" + (contEvent10/contador*100) +"%");
+                            System.out.println("        sueño:" + (contEvent11/contador*100) +"%");
+                            System.out.println("        fantasma:" + (contEvent12/contador*100) +"%");
+                            System.out.println("        llanta ponchada:" + (contEvent13/contador*100) +"%");
+                            System.out.println("        sin gasolina:" + (contEvent14/contador*100) +"%");
+                            System.out.println("        reten militar?:" + (contEvent18/contador*100) +"%");
+                            System.out.println("        secuestro:" + (contEvent19/contador*100) +"%");
+                            System.out.println("        morritas:" + (contEvent20/contador*100) +"%");
+                            System.out.println("        caseta:" + (contEvent22/contador*100) +"%");
+                            System.out.println("        deslave:" + (contEvent24/contador*100) +"%");
+                            System.out.println("    Eventos positivos");
+                            System.out.println("        oh yeah:" + (contEvent26/contador*100) +"%");
+                            System.out.println("        huachicol:" + (contEvent23/contador*100) +"%");
+                            System.out.println("        reparacion:" + (contEvent3/contador*100) +"%");
+                            System.out.println("        motel:" + (contEvent25/contador*100) +"%");
+                            System.out.println("        gasolinera:" + (contEvent15/contador*100) +"%");
+                            System.out.println("        recargar gasolina:" + (contEvent16/contador*100) +"%");
+                            System.out.println("        taller:" + (contEvent17/contador*100) +"%");
+                            System.out.println("        corridos muy alterados:" + (contEvent5/contador*100) +"%");
+                            System.out.println("        no trafico:" + (contEvent8/contador*100) +"%");
+                            System.out.println("        cerveza:" + (contEvent21/contador*100) +"%");
                         }
                         promedio=(promedio/contador);
                         preAnalisis[i][j]=promedio<100000? promedio : 0;
