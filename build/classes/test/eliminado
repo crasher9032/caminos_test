@@ -30,3 +30,78 @@ metodo mejorCamino()
 	    	System.out.println("Promedio de vida de las llantas:"+promedio_llantas);
 	    	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Json
+
+
+                    /*JSONArray obj = new JSONArray();
+                    obj.put(suceso);
+
+                    JSONObject jo = new JSONObject();
+                    jo.put("camino", caminoCon);
+                    jo.put("seccion", seccionCon);
+                    jo.put("complejidad_seccion", seccion[1]);
+                            jo.put("tiempo_seccion", seccion[2]);
+                            jo.put("longitud_seccion", seccion[3]);
+                            jo.put("tipo_seccion", seccion[4]);
+                            jo.put("estatus_seccion", seccion[5]);
+                            jo.put("velocidad_original", carrito[0]);
+                            jo.put("calidad_auto", carrito[1]);
+                            jo.put("estado_auto", carrito[2]);
+                            jo.put("llantas_tipo", carrito[3]);
+                            jo.put("llantas_estado", carrito[4]);
+                            jo.put("hora_salida", carrito[5]);
+                            jo.put("recorrido", carrito[6]);
+                            jo.put("tiempo_viaje", carrito[7]);
+                            jo.put("sueno", carrito[8]);
+                            jo.put("herramienta", carrito[9]);
+                            jo.put("riesgo_accidente", carrito[10]);
+                            jo.put("velocidad_actual", carrito[11]);
+                            obj.put(jo);
+
+                            System.out.println(obj);
+
+                    Document document = new Document("camino", caminoCon).
+                                    append("seccion", seccionCon).
+                                    append("", new Document()).
+                                            append("suceso", suceso).
+                                            append("complejidad_seccion", seccion[1]).
+                                            append("tiempo_seccion", seccion[2]).
+                                            append("longitud_seccion", seccion[3]).
+                                            append("tipo_seccion", seccion[4]).
+                                            append("estatus_seccion", seccion[5]).
+                                            append("velocidad_original", carrito[0]).
+                                            append("calidad_auto", carrito[1]).
+                                            append("estado_auto", carrito[2]).
+                                            append("llantas_tipo", carrito[3]).
+                                            append("llantas_estado", carrito[4]).
+                                            append("hora_salida", carrito[5]).
+                                            append("recorrido", carrito[6]).
+                                            append("tiempo_viaje", carrito[7]).
+                                            append("sueno", carrito[8]).
+                                            append("herramienta", carrito[9]).
+                                            append("riesgo_accidente", carrito[10]).
+                                            append("velocidad_actual", carrito[11]);
+                    col.insertOne(document);
+
+                             BasicDBObject DBObjectDatos = new BasicDBObject();
+                             DBObjectDatos.append("suceso", suceso);
+                             DBObjectDatos.append("velocidad_original", carrito[0]);
+                             DBObjectDatos.append("calidad_auto", carrito[1]);
+                             DBObjectDatos.append("estado_auto", carrito[2]);
+                             DBObjectDatos.append("llantas_tipo", carrito[3]);
+                             DBObjectDatos.append("llantas_estado", carrito[4]);
+                             DBObjectDatos.append("hora_salida", carrito[5]);
+                             DBObjectDatos.append("recorrido", carrito[6]);
+                             DBObjectDatos.append("tiempo_viaje", carrito[7]);
+                             DBObjectDatos.append("sueno", carrito[8]);
+                             DBObjectDatos.append("herramienta", carrito[9]);
+                             DBObjectDatos.append("riesgo_accidente", carrito[10]);
+                             DBObjectDatos.append("velocidad_actual", carrito[11]);
+                             DBObjectDatos.append("complejidad_seccion", carrito[1]);
+                             DBObjectDatos.append("tiempo_seccion", carrito[2]);
+                             DBObjectDatos.append("longitud_seccion", carrito[3]);
+                             DBObjectDatos.append("tipo_seccion", carrito[4]);
+                             DBObjectDatos.append("estatus_seccion", carrito[5]);
+
+             collection.insert(DBObjectDatos);
+             */

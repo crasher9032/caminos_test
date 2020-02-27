@@ -157,6 +157,7 @@ class IA_Carretera {
             contador++;
             if(fin==false) {
             	System.out.println("El auto llego a su destino");
+                finalizar(carrito[i], "destino", 1);
             }
             fin=false;
             i++;
@@ -187,30 +188,121 @@ class IA_Carretera {
     private static void mejorCamino() {
     	try {
             Statement s = conexion.createStatement();
-            float promedio=0;
             for (int i = 1; i < 4; i++) {
-                for (int j = 0; j < 100; j++) {
+                float promedio=0;
+                for (int j = 0; j < 3; j++) {
                     try {
                         ResultSet rs = s.executeQuery ("select * from `caminos_de_la_vida`.`"+i+"` where seccion='"+j+"'");
                         int contador=0;
+                        int contEvent1=0,contEvent2=0,contEvent3=0,contEvent4=0,contEvent5=0,contEvent6=0,contEvent7=0,contEvent8=0,contEvent9=0,
+                            contEvent10=0,contEvent11=0,contEvent12=0,contEvent13=0,contEvent14=0,contEvent15=0,contEvent16=0,contEvent17=0,
+                            contEvent18=0,contEvent19=0,contEvent20=0,contEvent21=0,contEvent22=0,contEvent23=0,contEvent24=0,contEvent25=0,contEvent26=0;
                         while(rs.next()){
+                            String suceso=rs.getString("suceso");
+                            switch(suceso){
+                                case "muerte por choque":
+                                    contEvent1++;
+                                    break;
+                                case "choque menor":
+                                    contEvent2++;
+                                    break;
+                                case "reparacion":
+                                    contEvent3++;
+                                    break;
+                                case "fin por auto descompuesto":
+                                    contEvent4++;
+                                    break;
+                                case "corridos muy alterados":
+                                    contEvent5++;
+                                    break;
+                                case "animal en el camino":
+                                    contEvent6++;
+                                    break;
+                                case "falta de senalamientos":
+                                    contEvent7++;
+                                    break;
+                                case "no trafico":
+                                    contEvent8++;
+                                    break;
+                                case "lluvia":
+                                    contEvent9++;
+                                    break;
+                                case "nieve":
+                                    contEvent10++;
+                                    break;
+                                case "sueno":
+                                    contEvent11++;
+                                    break;
+                                case "fantasma":
+                                    contEvent12++;
+                                    break;
+                                case "llanta ponchada":
+                                    contEvent13++;
+                                    break;
+                                case "sin gasolina":
+                                    contEvent14++;
+                                    break;
+                                case "gasolinera":
+                                    contEvent15++;
+                                    break;
+                                case "recargar gasolina":
+                                    contEvent16++;
+                                    break;
+                                case "taller":
+                                    contEvent17++;
+                                    break;
+                                case "reten militar?":
+                                    contEvent18++;
+                                    break;
+                                case "secuestro":
+                                    contEvent19++;
+                                    break;
+                                case "morritas":
+                                    contEvent20++;
+                                    break;
+                                case "cerveza":
+                                    contEvent21++;
+                                    break;
+                                case "caseta":
+                                    contEvent22++;
+                                    break;
+                                case "huachicol":
+                                    contEvent23++;
+                                    break;
+                                case "deslave":
+                                    contEvent24++;
+                                    break;
+                                case "motel":
+                                    contEvent25++;
+                                    break;
+                                case "oh yeah":
+                                    contEvent26++;
+                                    break;
+                            }
+                            
                             promedio=(promedio+rs.getInt("riesgo_accidente"));
                             contador++;
                         }
                         promedio=(promedio/contador);
                         preAnalisis[i][j]=promedio<100000? promedio : 0;
                     } catch (Exception e) {
-                        
+                        System.out.println(e);
                     }
                 }
             }
-            for (int i = 0; i < 100; i++) {
-                try {
-                    System.out.println(i+":"+preAnalisis[1][i]+"  "+preAnalisis[2][i]+"  "+preAnalisis[3][i]);
-                } catch (Exception e) {
-                    
+            //for (int j = 1; j < 4; j++) {
+                //System.out.println("Camino "+j+":");
+                for (int i = 0; i < 100; i++) {
+                    try {
+                        if(preAnalisis[1][i]!=0 || preAnalisis[2][i]!=0 || preAnalisis[3][i]!=0){
+                            System.out.println(i+":"+preAnalisis[1][i]+"    "+preAnalisis[2][i]+"    "+preAnalisis[3][i]);
+                        }
+                    } catch (Exception e) {
+
+                    }
                 }
-            }
+                System.out.println("****************************");
+            //}
     	}catch (Exception e) {
             System.out.println(e);
         }
@@ -557,7 +649,7 @@ class IA_Carretera {
                     }
                     if(flagFantasma && noche!=false){
                         System.out.println("Ay que miedo, yo mejor me voy, adios fantasma");
-                        carrito[10]=(carrito[10]+75);
+                        carrito[10]=(carrito[10]-75);
                         flagFantasma=false;
                     }
                     //desgaste de llantas
@@ -899,78 +991,6 @@ class IA_Carretera {
                                     + "'"+((int)(carrito[10]))+"', '"+((int)(carrito[11]))+"', '"+((int)(carrito[12]))+"', '"+(refuerzo)+"');");
                     consulta.execute();
 
-                    /*JSONArray obj = new JSONArray();
-                    obj.put(suceso);
-
-                    JSONObject jo = new JSONObject();
-                    jo.put("camino", caminoCon);
-                    jo.put("seccion", seccionCon);
-                    jo.put("complejidad_seccion", seccion[1]);
-                            jo.put("tiempo_seccion", seccion[2]);
-                            jo.put("longitud_seccion", seccion[3]);
-                            jo.put("tipo_seccion", seccion[4]);
-                            jo.put("estatus_seccion", seccion[5]);
-                            jo.put("velocidad_original", carrito[0]);
-                            jo.put("calidad_auto", carrito[1]);
-                            jo.put("estado_auto", carrito[2]);
-                            jo.put("llantas_tipo", carrito[3]);
-                            jo.put("llantas_estado", carrito[4]);
-                            jo.put("hora_salida", carrito[5]);
-                            jo.put("recorrido", carrito[6]);
-                            jo.put("tiempo_viaje", carrito[7]);
-                            jo.put("sueno", carrito[8]);
-                            jo.put("herramienta", carrito[9]);
-                            jo.put("riesgo_accidente", carrito[10]);
-                            jo.put("velocidad_actual", carrito[11]);
-                            obj.put(jo);
-
-                            System.out.println(obj);
-
-                    Document document = new Document("camino", caminoCon).
-                                    append("seccion", seccionCon).
-                                    append("", new Document()).
-                                            append("suceso", suceso).
-                                            append("complejidad_seccion", seccion[1]).
-                                            append("tiempo_seccion", seccion[2]).
-                                            append("longitud_seccion", seccion[3]).
-                                            append("tipo_seccion", seccion[4]).
-                                            append("estatus_seccion", seccion[5]).
-                                            append("velocidad_original", carrito[0]).
-                                            append("calidad_auto", carrito[1]).
-                                            append("estado_auto", carrito[2]).
-                                            append("llantas_tipo", carrito[3]).
-                                            append("llantas_estado", carrito[4]).
-                                            append("hora_salida", carrito[5]).
-                                            append("recorrido", carrito[6]).
-                                            append("tiempo_viaje", carrito[7]).
-                                            append("sueno", carrito[8]).
-                                            append("herramienta", carrito[9]).
-                                            append("riesgo_accidente", carrito[10]).
-                                            append("velocidad_actual", carrito[11]);
-                    col.insertOne(document);
-
-                             BasicDBObject DBObjectDatos = new BasicDBObject();
-                             DBObjectDatos.append("suceso", suceso);
-                             DBObjectDatos.append("velocidad_original", carrito[0]);
-                             DBObjectDatos.append("calidad_auto", carrito[1]);
-                             DBObjectDatos.append("estado_auto", carrito[2]);
-                             DBObjectDatos.append("llantas_tipo", carrito[3]);
-                             DBObjectDatos.append("llantas_estado", carrito[4]);
-                             DBObjectDatos.append("hora_salida", carrito[5]);
-                             DBObjectDatos.append("recorrido", carrito[6]);
-                             DBObjectDatos.append("tiempo_viaje", carrito[7]);
-                             DBObjectDatos.append("sueno", carrito[8]);
-                             DBObjectDatos.append("herramienta", carrito[9]);
-                             DBObjectDatos.append("riesgo_accidente", carrito[10]);
-                             DBObjectDatos.append("velocidad_actual", carrito[11]);
-                             DBObjectDatos.append("complejidad_seccion", carrito[1]);
-                             DBObjectDatos.append("tiempo_seccion", carrito[2]);
-                             DBObjectDatos.append("longitud_seccion", carrito[3]);
-                             DBObjectDatos.append("tipo_seccion", carrito[4]);
-                             DBObjectDatos.append("estatus_seccion", carrito[5]);
-
-             collection.insert(DBObjectDatos);
-             */
 
              }catch (Exception e) {
                     System.out.println(e);
@@ -980,5 +1000,25 @@ class IA_Carretera {
 
     private static void guardar(float[] seccion, float[] carrito, String muerte_por_choque) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void finalizar(float[] carrito, String suceso, int refuerzo) {
+        try {
+            PreparedStatement consulta;
+            consulta=conexion.prepareStatement("INSERT INTO `"+caminoCon+"` "
+                                    + "(`suceso`, `seccion`, `velocidad_maxima`, "
+                                    + "`calidad_auto`, `estado_auto`, `tipo_llantas`,"
+                                    + "`estado_llantas`, `hora_salida`, `distancia_recorrida`,"
+                                    + "`tiempo_viaje`, `sueno_conductor`, `herramientas`, "
+                                    + "`riesgo_accidente`, `velocidad_actual`, `gasolina` , `refuerzo`) "
+                                    + "VALUES ('"+suceso+"', '"+seccionCon+"', '"+((int)(carrito[0]))+"'"
+                                    + ", '"+((int)(carrito[1]))+"', '"+((int)(carrito[2]))+"', '"+((int)(carrito[3]))+"', "
+                                    + "'"+((int)(carrito[4]))+"', '"+((int)(carrito[5]))+"', '"+((int)(carrito[6]))+"',"
+                                    + "'"+((int)(carrito[7]-carrito[5]))+"', '"+((int)(carrito[8]))+"', '"+((int)(carrito[9]))+"', "
+                                    + "'"+((int)(carrito[10]))+"', '"+((int)(carrito[11]))+"', '"+((int)(carrito[12]))+"', '"+(refuerzo)+"');");
+                    consulta.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
